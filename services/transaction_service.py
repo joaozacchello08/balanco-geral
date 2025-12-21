@@ -1,12 +1,12 @@
 from models.transaction import TransactionUpdate
 from repositories import transaction_repo as repo
 
-def registrar_entrada(value: int, description: str):
+def registrar_entrada(value: float, description: str):
     if value <= 0:
         raise ValueError("value inválido")
     repo.create("entrada", value, description)
 
-def registrar_saida(value: int, description: str):
+def registrar_saida(value: float, description: str):
     if value <= 0:
         raise ValueError("value inválido")
     repo.create("saida", value, description)

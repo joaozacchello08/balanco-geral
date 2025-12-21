@@ -7,14 +7,14 @@ def init_db() -> None:
         conn.execute("""
             CREATE TABLE IF NOT EXISTS transactions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                value INTEGER NOT NULL,
+                value FLOAT NOT NULL,
                 description TEXT NOT NULL,
                 date TEXT NOT NULL,
                 t_type TEXT NOT NULL
             )
         """)
 
-def create(t_type: TransactionType, value: int, description: str, date_str: str | None = None) -> None:
+def create(t_type: TransactionType, value: float, description: str, date_str: str | None = None) -> None:
     if date_str is None:
         date_str = date.today().isoformat()
     
