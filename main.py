@@ -3,7 +3,8 @@ from services.transaction_service import (
     registrar_entrada,
     registrar_saida,
     apagar,
-    atualizar
+    atualizar,
+    ver_balanço
 )
 
 def read_float(msg: str) -> float:
@@ -25,6 +26,7 @@ if __name__ == "__main__":
             "[s] saída\n"
             "[d] deletar\n"
             "[u] atualizar\n"
+            "[r] ver balanço\n"
             "[q] sair\n> "
         ).strip().lower()
 
@@ -63,6 +65,10 @@ if __name__ == "__main__":
                     updates["date"] = read_str("Data (YYYY-MM-DD): ")
 
                 atualizar(t_id, updates)
+            
+            elif action == "r":
+                saldo = ver_balanço()
+                print(f"Saldo geral: R$ {saldo}")
 
             else:
                 print("Ação inválida.")

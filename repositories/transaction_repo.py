@@ -40,3 +40,17 @@ def update(t_id: int, updates: TransactionUpdate) -> None:
             f"UPDATE transactions SET {fields} WHERE id = ?",
             values
         )
+
+def get_general_balance() -> float:
+    with get_connection() as conn:
+        balance = conn.execute("""
+            SELECT COALESCE(SUM(
+                CASE
+                    WHEN t_type = 'entrada' THEN value
+                    WHEN t_type = 'saida' THEN -value
+                END
+            ), 0)
+            FROM transactions
+        """).fetchone()[0]
+
+    return balance
