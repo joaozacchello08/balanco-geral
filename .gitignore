@@ -1,1 +1,3 @@
 venv
+*.db
+unfuck-git.txt
