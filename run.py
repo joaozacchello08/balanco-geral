@@ -6,5 +6,5 @@ import webbrowser
 if __name__ == "__main__":
     init_db()
     port = 8080
-    # webbrowser.open(f"http://127.0.0.1:{port}")
+    webbrowser.open(f"http://127.0.0.1:{port}")
     uvicorn.run(app, port=port, log_level="debug")
