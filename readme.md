@@ -62,7 +62,7 @@ Abrindo ```http://127.0.0.1:8080/testing``` você tem acesso a um painel de test
 ![Painel de Teste das Rotas da API](/media/image.png)
 
 ## ⚙️ Configuração
-Em ```config.py```, você pode escolher outro diretório para o aplicativo criar o arquivo da base de dados. O default é ```/db/default.db```.
+Em ```config.py```, você pode escolher outro diretório para o aplicativo criar o arquivo da base de dados. O default é ```db/default.db```.
 ```py
 DB_PATH = "db/default.db"
 ```

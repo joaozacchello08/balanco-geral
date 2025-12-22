@@ -1,11 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Controle de Gastos</title>
-    </head>
-    <body>
-        <h1>TEST</h1>
-    </body>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxo Caixa</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        h1 { text-align: center; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #4CAF50; color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        .edit-btn { background: none; border: none; font-size: 1.2em; cursor: pointer; }
+        .valor { text-align: right; font-weight: bold; }
+        .entrada { color: green; }
+        .saida { color: red; }
+        input { padding: 8px; width: 100%; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <h1>Fluxo Caixa</h1>
+
+    <table id="transactions-table">
+        <thead>
+            <tr>
+                <th>Valor</th>
+                <th>Descrição</th>
+                <th>Data</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Carregado via JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        const API_BASE = "http://127.0.0.1:8080";
+
+        async function loadTransactions() {
+            try {
+                const response = await fetch(`${API_BASE}/transacoes`);
+                if (!response.ok) throw new Error("Erro na API");
+                const data = await response.json();
+
+                let transactions = [];
+                if (data && Array.isArray(data.transacoes)) {
+                    transactions = data.transacoes;
+                } else {
+                    console.error("Formato inesperado:", data);
+                    alert("Erro ao carregar dados.");
+                    return;
+                }
+
+                const tbody = document.querySelector("#transactions-table tbody");
+                tbody.innerHTML = "";
+
+                transactions.forEach(trans => {
+                    const tr = document.createElement("tr");
+                    tr.dataset.id = trans.id;
+
+                    const valorFormatado = Math.abs(trans.value).toFixed(2).replace('.', ',');
+                    const classeValor = trans._type === "entrada" ? "entrada" : "saida";
+                    const sinal = trans._type === "entrada" ? "+" : "-";
+
+                    const dateFormatted = formatDate(trans.date);
+
+                    tr.innerHTML = `
+                        <td class="valor view-mode ${classeValor}">${sinal} R$ ${valorFormatado}</td>
+                        <td class="view-mode">${trans.description || ''}</td>
+                        <td class="view-mode">${dateFormatted}</td>
+                        <td><button class="edit-btn" title="Editar">✏️</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                setupEditButtons();
+            } catch (err) {
+                console.error("Erro:", err);
+                alert("Falha ao carregar transações.");
+            }
+        }
+
+        function formatDate(isoDate) {
+            if (!isoDate) return '';
+            const [year, month, day] = isoDate.split('-');
+            return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+        }
+
+        function reverseFormatDate(ddmmyyyy) {
+            if (!ddmmyyyy) return '';
+            const [day, month, year] = ddmmyyyy.split('/');
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        }
+
+        function setupEditButtons() {
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const tr = this.closest('tr');
+                    if (this.textContent === '✅') {
+                        saveTransaction(tr);
+                    } else {
+                        enterEditMode(tr);
+                        this.textContent = '✅';
+                        this.title = 'Salvar';
+                    }
+                });
+            });
+        }
+
+        function enterEditMode(tr) {
+            const valorTexto = tr.children[0].textContent.trim();
+            const sinalAtual = valorTexto.startsWith('+') ? '+' : '-';
+            const valorAbs = parseFloat(valorTexto.replace(/[^\d,]/g, '').replace(',', '.'));
+            const description = tr.children[1].textContent;
+            const dataView = tr.children[2].textContent;
+            const dataIso = reverseFormatDate(dataView);
+
+            tr.innerHTML = `
+                <td class="valor">
+                    <input type="number" step="0.01" value="${valorAbs}" style="width:60px;"> 
+                    <select style="width:40px;">
+                        <option value="+" ${sinalAtual === '+' ? 'selected' : ''}>+</option>
+                        <option value="-" ${sinalAtual === '-' ? 'selected' : ''}>-</option>
+                    </select>
+                </td>
+                <td><input type="text" value="${description}"></td>
+                <td><input type="date" value="${dataIso}"></td>
+                <td><button class="edit-btn" title="Salvar">✅</button></td>
+            `;
+        }
+
+        async function saveTransaction(tr) {
+            const id = tr.dataset.id;
+
+            const sinalSelect = tr.querySelector('select').value;
+            const valorAbs = parseFloat(tr.querySelector('input[type="number"]').value);
+            const value = sinalSelect === '+' ? valorAbs : -valorAbs;
+
+            const description = tr.querySelector('input[type="text"]').value.trim();
+            const date = tr.querySelector('input[type="date"]').value;
+
+            const updates = {};
+            if (!isNaN(value)) updates.value = value;
+            if (description !== '') updates.description = description;
+            if (date) updates.date = date;
+
+            try {
+                const resp = await fetch(`${API_BASE}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updates)
+                });
+                if (!resp.ok) throw new Error("Erro ao salvar");
+                loadTransactions();
+            } catch (err) {
+                alert("Erro ao salvar a transação.");
+            }
+        }
+
+        window.onload = loadTransactions;
+    </script>
+</body>
 </html>
