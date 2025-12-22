@@ -32,28 +32,28 @@ python run.py
 
 ## 📂 Estrutura
 balanco-geral/
-├── db/ \
-    ├── database.py \
-    └── default.db -> criada após rodar o programa a primeira vez \
-├── media/ \
-    └── image.png \
-├── models/ \ 
-    └── transaction.py \
-├── pages/ \
-    ├── assets/ \
-        └── favicon.ico \
-    ├── index.html \
-    └── testing.html \
-├── repositories/ \
-    └── transaction_repo.py \
-├── services/ \
-    └── transaction_service.py \
-├── .gitignore \
-├── app.py \
-├── config.py \
-├── readme.md \
-├── requirements.txt \
-└── run.py \
+├── assets/
+│   └── favicon.ico
+├── db/
+│   ├── database.py
+│   └── default.db           # Gerada automaticamente na primeira execução
+├── media/
+│   └── image.png
+├── models/
+│   └── transaction.py
+├── pages/
+│   ├── index.html
+│   └── testing.html
+├── repositories/
+│   └── transaction_repo.py
+├── services/
+│   └── transaction_service.py
+├── .gitignore
+├── app.py
+├── config.py
+├── readme.md
+├── requirements.txt
+└── run.py
 
 ## 🧪 Testes
 Abrindo ```http://127.0.0.1:8080/testing``` você tem acesso a um painel de teste das rotas da API.
