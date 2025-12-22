@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>FastAPI – Testing</title>
+    <style>
+        body { font-family: monospace; background: #111; color: #eee; padding: 20px }
+        button { margin: 5px 0; padding: 6px 10px }
+        input, select { margin: 3px 0; padding: 4px }
+        pre { background: #000; padding: 10px; max-height: 300px; overflow: auto }
+        hr { margin: 20px 0 }
+    </style>
+</head>
+<body>
+
+<h2>FastAPI Testing</h2>
+
+<button onclick="getTransacoes()">GET /transacoes</button>
+<button onclick="getBalanco()">GET /balanco</button>
+
+<hr>
+
+<h3>POST /entrada</h3>
+<input id="entradaValue" type="number" step="0.01" placeholder="value">
+<input id="entradaDesc" placeholder="description">
+<button onclick="postEntrada()">Enviar</button>
+
+<h3>POST /saida</h3>
+<input id="saidaValue" type="number" step="0.01" placeholder="value">
+<input id="saidaDesc" placeholder="description">
+<button onclick="postSaida()">Enviar</button>
+
+<hr>
+
+<h3>PUT /{t_id}</h3>
+<input id="putId" type="number" placeholder="id">
+<select id="putType">
+    <option value="">t_type (opcional)</option>
+    <option value="entrada">entrada</option>
+    <option value="saida">saida</option>
+</select>
+<input id="putValue" type="number" step="0.01" placeholder="value (opcional)">
+<input id="putDesc" placeholder="description (opcional)">
+<input id="putDate" placeholder="date yyyy-mm-dd (opcional)">
+<button onclick="putRegistro()">Atualizar</button>
+
+<hr>
+
+<h3>DELETE</h3>
+<input id="deleteId" type="number" placeholder="t_id">
+<button onclick="deleteRegistro()">DELETE /t/{id}</button>
+<button onclick="deleteDb()">DELETE /db</button>
+
+<hr>
+
+<h3>Response</h3>
+<pre id="output"></pre>
+
+<script>
+const api = "http://127.0.0.1:8080";
+const out = (data) => {
+    document.getElementById("output").textContent =
+        JSON.stringify(data, null, 2);
+};
+
+async function req(path, options = {}) {
+    const r = await fetch(api + path, {
+        headers: { "Content-Type": "application/json" },
+        ...options
+    });
+    const text = await r.text();
+    try { out(JSON.parse(text)); }
+    catch { out(text); }
+}
+
+function getTransacoes() { req("/transacoes"); }
+function getBalanco() { req("/balanco"); }
+
+function postEntrada() {
+    req("/entrada", {
+        method: "POST",
+        body: JSON.stringify({
+            value: Number(entradaValue.value),
+            description: entradaDesc.value
+        })
+    });
+}
+
+function postSaida() {
+    req("/saida", {
+        method: "POST",
+        body: JSON.stringify({
+            value: Number(saidaValue.value),
+            description: saidaDesc.value
+        })
+    });
+}
+
+function putRegistro() {
+    const body = {};
+    if (putType.value) body.t_type = putType.value;
+    if (putValue.value) body.value = Number(putValue.value);
+    if (putDesc.value) body.description = putDesc.value;
+    if (putDate.value) body.date = putDate.value;
+
+    req(`/${putId.value}`, {
+        method: "PUT",
+        body: JSON.stringify(body)
+    });
+}
+
+function deleteRegistro() {
+    req(`/t/${deleteId.value}`, { method: "DELETE" });
+}
+
+function deleteDb() {
+    req("/db", { method: "DELETE" });
+}
+</script>
+
+</body>
+</html>

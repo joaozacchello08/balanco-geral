@@ -2,3 +2,4 @@ venv
 *.db
 unfuck-git.txt
 __pycache__
+test
