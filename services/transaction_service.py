@@ -19,3 +19,6 @@ def atualizar(t_id: int, updates: TransactionUpdate):
 
 def apagar(t_id: int):
     repo.delete(t_id)
+
+def ver_transacoes():
+    return repo.get_all_transactions()

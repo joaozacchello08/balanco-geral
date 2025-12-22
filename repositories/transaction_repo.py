@@ -14,6 +14,10 @@ def init_db() -> None:
             )
         """)
 
+def drop_table_main_table() -> None:
+    with get_connection() as conn:
+        conn.execute("DROP TABLE IF EXISTS transactions")
+
 def create(t_type: TransactionType, value: float, description: str, date_str: str | None = None) -> None:
     if date_str is None:
         date_str = date.today().isoformat()
@@ -54,3 +58,9 @@ def get_general_balance() -> float:
         """).fetchone()[0]
 
     return balance
+
+def get_all_transactions():
+    with get_connection() as conn:
+        entradas = conn.execute("SELECT * FROM transactions WHERE t_type='entrada'").fetchall()
+        saidas = conn.execute("SELECT * FROM transactions WHERE t_type = 'saida'").fetchall()
+        return { "entradas": entradas, "saidas": saidas }

@@ -1,1 +1,3 @@
-DB_PATH = "db/test.db" # default temporariamente
+# import os
+# os.environ["cdg_DB_PATH"] = "db/default.db" 
+DB_PATH = "db/default.db"
