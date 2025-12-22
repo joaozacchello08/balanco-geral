@@ -31,6 +31,7 @@ python run.py
 ```
 
 ## 📂 Estrutura
+```
 balanco-geral/
 ├── assets/
 │   └── favicon.ico
@@ -54,6 +55,7 @@ balanco-geral/
 ├── readme.md
 ├── requirements.txt
 └── run.py
+```
 
 ## 🧪 Testes
 Abrindo ```http://127.0.0.1:8080/testing``` você tem acesso a um painel de teste das rotas da API.
