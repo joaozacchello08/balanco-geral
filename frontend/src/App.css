@@ -1,46 +1,66 @@
 .content {
   min-height: 100vh;
-  padding: 40px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #0f172a;
 }
 
 .content h1 {
   margin-bottom: 24px;
   font-size: 2rem;
   font-weight: 600;
+  color: #e5e7eb;
 }
 
-.container {
+/* wrapper das duas tabelas */
+.content > div {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
 }
 
+/* tabela base */
 .sql-table-lookalike {
   width: 100%;
   border-collapse: collapse;
   background-color: #020617;
   border: 1px solid #1e293b;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.sql-table-lookalike thead {
+/* header geral */
+.sql-table-lookalike thead tr:first-child th {
+  text-align: center;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  background-color: #020617;
+  color: #93c5fd;
+}
+
+/* header colunas */
+.sql-table-lookalike th {
+  padding: 10px 12px;
+  border: 1px solid #1e293b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #c7d2fe;
   background-color: #020617;
 }
 
-.sql-table-lookalike th,
+/* células */
 .sql-table-lookalike td {
-  padding: 12px 14px;
+  padding: 10px 12px;
   border: 1px solid #1e293b;
-  text-align: left;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  color: #e5e7eb;
 }
 
-.sql-table-lookalike th {
-  color: #93c5fd;
-  font-weight: 600;
-}
-
+/* zebra */
 .sql-table-lookalike tbody tr:nth-child(even) {
   background-color: #020617;
 }
@@ -49,24 +69,40 @@
   background-color: #020617;
 }
 
-.sql-table-lookalike td:last-child {
-  text-transform: capitalize;
+/* inputs */
+.sql-table-lookalike input,
+.sql-table-lookalike select {
+  width: 100%;
+  background-color: #020617;
+  border: 1px solid #334155;
+  color: #e5e7eb;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
 }
 
+.sql-table-lookalike input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ações */
 .actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
+  align-items: center;
 }
 
 .actions button {
   border: none;
   background-color: transparent;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.95rem;
   padding: 6px 8px;
   border-radius: 6px;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  color: #e5e7eb;
 }
 
 .actions button:hover {
@@ -77,11 +113,32 @@
   transform: scale(0.95);
 }
 
-.actions .edit:hover {
-  background-color: #1d4ed8;
+/* botão + no header */
+.sql-table-lookalike thead button {
+  margin-left: 6px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #93c5fd;
 }
 
-.actions .delete:hover {
-  background-color: #991b1b;
+.sql-table-lookalike thead button:hover {
+  color: #bfdbfe;
+}
+
+.tables-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  gap: 24px;
+}
+
+.balance {
+  margin-top: 32px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  color: #e5e7eb;
 }
 
