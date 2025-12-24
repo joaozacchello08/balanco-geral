@@ -10,6 +10,19 @@ export interface Transaction {
   t_type: TransactionType;
 }
 
+export interface NewTransaction {
+  value: number;
+  description: string;
+  /** ISO yyyy-mm-dd */
+  date?: ISODate;
+  t_type: TransactionType;
+}
+
+export interface Registro {
+  value: number;
+  description: string
+}
+
 export interface TransactionsGroup {
   entradas: Transaction[];
   saidas: Transaction[];

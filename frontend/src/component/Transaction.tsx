@@ -62,9 +62,10 @@ export default function TransactionC({ tx }: Props) {
                         <input
                             type="number"
                             defaultValue={tx.value}
-                            step="0.01"
+                            step={0.01}
                             onChange={e => {
-                                updates.current.value = Number(e.target.value)
+                                const rounded = Number(e.target.value).toFixed(2)
+                                updates.current.value = Number(rounded)
                             }}
                         />
                     </td>
