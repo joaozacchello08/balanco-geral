@@ -3,3 +3,6 @@ venv
 unfuck-git.txt
 __pycache__
 test
+*.spec
+executablebuild
+build
