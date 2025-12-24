@@ -1,0 +1,87 @@
+.content {
+  min-height: 100vh;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content h1 {
+  margin-bottom: 24px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+}
+
+.sql-table-lookalike {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #020617;
+  border: 1px solid #1e293b;
+}
+
+.sql-table-lookalike thead {
+  background-color: #020617;
+}
+
+.sql-table-lookalike th,
+.sql-table-lookalike td {
+  padding: 12px 14px;
+  border: 1px solid #1e293b;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.sql-table-lookalike th {
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+.sql-table-lookalike tbody tr:nth-child(even) {
+  background-color: #020617;
+}
+
+.sql-table-lookalike tbody tr:hover {
+  background-color: #020617;
+}
+
+.sql-table-lookalike td:last-child {
+  text-transform: capitalize;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.actions button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.actions button:hover {
+  background-color: #1e293b;
+}
+
+.actions button:active {
+  transform: scale(0.95);
+}
+
+.actions .edit:hover {
+  background-color: #1d4ed8;
+}
+
+.actions .delete:hover {
+  background-color: #991b1b;
+}
+

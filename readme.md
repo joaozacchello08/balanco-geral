@@ -11,7 +11,7 @@ Seu foco é **administrar o fluxo de caixa**, garantindo **controle sobre os gas
 - FastAPI
 
 ## 📦 Instalação
-**OBS: O Python deve ser 3.14 para ter certeza do funcionamento.
+**OBS: O Python deve ser 3.14+ para ter certeza do funcionamento.
 ```bash
 git clone https://github.com/joaozacchello08/balanco-geral.git
 cd balanco-geral
