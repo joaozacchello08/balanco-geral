@@ -27,8 +27,16 @@ export default function App() {
   const [insertEntrada, setInsertEntrada] = useState(false)
   const [insertSaida, setInsertSaida] = useState(false)
 
-  const newEntrada = useRef<Registro>({})
-  const newSaida = useRef<Registro>({})
+  const newEntrada = useRef<Registro>({
+    value: 0,
+    description: ""
+  })
+
+  const newSaida = useRef<Registro>({
+    value: 0,
+    description: ""
+  })
+
 
   const sortList = (
     list: Transaction[],
