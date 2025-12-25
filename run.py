@@ -1,7 +1,9 @@
-from repositories.transaction_repo import init_db
-import uvicorn
-from app import app
+import subprocess
+import sys
 
 if __name__ == "__main__":
-    init_db()
-    uvicorn.run(app, host="127.0.0.1", port=8080)
+    subprocess.Popen([sys.executable, "api.py"])
+    subprocess.Popen([sys.executable, "frontend.py"])
+
+    while True:
+        input("Running...")
